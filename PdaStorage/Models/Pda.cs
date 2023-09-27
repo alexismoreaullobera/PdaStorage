@@ -11,14 +11,34 @@ namespace PdaStorage.Models
         private readonly Dictionary<int, Mob> _mobIdToMob;
 
         public string Name { get; }
-        public int Count { get => _mobIdToMob.Count; }
-        public List<Mob> Mobs { get  => _mobIdToMob.Values.ToList(); }
+        public int PdaCount { get => _mobIdToMob.Count; }
+        public int MobCount { get; private set; }
 
         public Pda(string name)
         {
             Name = name;
 
             _mobIdToMob = new Dictionary<int, Mob>();
+        }
+
+        public void AddMob(Mob mob)
+        {
+            if(mob is null)
+            {
+                throw new ArgumentNullException(nameof(mob));
+            }
+
+            if(_mobIdToMob.TryAdd(mob.Id, mob))
+            {
+                _mobIdToMob[mob.Id] = mob;
+            }
+
+            ++MobCount;
+        }
+
+        public IEnumerable<Mob> GetMobs()
+        {
+            return _mobIdToMob.Values;
         }
     }
 }

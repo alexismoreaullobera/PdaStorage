@@ -12,5 +12,13 @@ namespace PdaStorage.Models
         public string Name { get; }
         public int Quantity { get; }
         public bool IsArchi { get; }
+
+        public Mob(int id, string name, int quantity, bool isArchi = false)
+        {
+            Id = id;
+            Name = name;
+            Quantity = quantity;
+            IsArchi = isArchi;
+        }
     }
 }

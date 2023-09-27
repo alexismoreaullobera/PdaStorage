@@ -20,7 +20,22 @@ namespace PdaStorage.Models
         public IEnumerable<Mob>? GetMobsByPdaName(string name)
         {
             _pdaNameToPda.TryGetValue(name, out Pda pdaResult);
-            return pdaResult?.Mobs;
+            return pdaResult?.GetMobs();
+        }
+
+        public IEnumerable<Pda> GetPdas()
+        {
+            return _pdaNameToPda.Values;
+        }
+
+        public void AddPda(Pda pda)
+        {
+            if(pda is null)
+            {
+                throw new ArgumentNullException(nameof(pda));
+            }
+
+            _pdaNameToPda.TryAdd(pda.Name, pda);
         }
     }
 }
