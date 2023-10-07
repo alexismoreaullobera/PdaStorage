@@ -8,17 +8,20 @@ namespace PdaStorage.Models
 {
     public class Pda
     {
-        private readonly Dictionary<int, Mob> _mobIdToMob;
+        private static int _offsetId;
+        private readonly List< Mob> _mobs;
 
+        public int Id { get; }
         public string Name { get; }
-        public int PdaCount { get => _mobIdToMob.Count; }
+        public int PdaCount { get => _mobs.Count; }
         public int MobCount { get; private set; }
 
         public Pda(string name)
         {
             Name = name;
+            Id = ++_offsetId;
 
-            _mobIdToMob = new Dictionary<int, Mob>();
+            _mobs = new List<Mob>();
         }
 
         public void AddMob(Mob mob)
@@ -28,17 +31,12 @@ namespace PdaStorage.Models
                 throw new ArgumentNullException(nameof(mob));
             }
 
-            if(_mobIdToMob.TryAdd(mob.Id, mob))
-            {
-                _mobIdToMob[mob.Id] = mob;
-            }
-
-            ++MobCount;
+            _mobs.Add(mob);
         }
 
         public IEnumerable<Mob> GetMobs()
         {
-            return _mobIdToMob.Values;
+            return _mobs;
         }
     }
 }
